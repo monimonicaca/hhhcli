@@ -1,7 +1,11 @@
 import fs from 'fs-extra'
-import { console } from 'inspector';
-import path from 'path'
 const { readJSON } = fs
+
+import path from 'path'
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const localeRoot = path.resolve(__dirname, '../locales')
+
 function linkLocale(locale) {
     let linkLocale;
     switch (locale) {
@@ -32,12 +36,14 @@ async function getLanguageJson(jsonPath) {
     const data = await readJSON(jsonPath)
     return data
 }
-export async function getLanguage(localeRoot) {
-    console.log('getLanguange-------------------------------------------------------------------------------------------------------------')
+ async function getLanguage(localeRoot) {
+    console.log('getLanguange-------------------------------------------------------------------------------------------------------------\n')
     const locale = getLocale()
     const filePath = path.resolve(localeRoot, `${locale}.json`)
     const data=await getLanguageJson(filePath)
     console.log(data)
-    console.log('getLanguange-------------------------------------------------------------------------------------------------------------')
+    console.log('getLanguange-------------------------------------------------------------------------------------------------------------\n')
     return data
 }
+
+export const jsonData = await getLanguage(localeRoot)
